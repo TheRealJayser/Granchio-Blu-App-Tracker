@@ -2,6 +2,11 @@
 
 Tutti gli aggiornamenti dell'app Granchio Blu, dal più recente.
 
+## Versione 2.1 — 15 novembre 2026
+
+### Modificato
+- **Import da Excel:** oltre alle righe di *conferimento* ora vengono lette anche quelle di *cattura* (colonna J, `descrMateriaPrima`). Se nello stesso giorno ci sono sia conferimenti che catture, i chili vengono sommati.
+
 ## Versione 2.0 — 15 novembre 2026
 
 ### Aggiunto

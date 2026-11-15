@@ -14,7 +14,7 @@
 - **Totale dell'anno** – i chili pescati dal 1° gennaio a oggi, il numero di uscite, la media per uscita e la differenza rispetto all'anno precedente alla stessa data.
 - **Lo stesso giorno negli anni** – il pescato di oggi messo a confronto con lo stesso giorno di ogni anno precedente.
 - **Archivio** – elenco giorno per giorno diviso per mese e tabella con i totali di ogni anno.
-- **Import da Excel** – legge il file dei conferimenti: prende solo le righe di *conferimento* (colonna J, `descrMateriaPrima`) e i chili da `qtaQuota` (colonna S), e somma più conferimenti nello stesso giorno.
+- **Import da Excel** – legge il file dei conferimenti: prende solo le righe di *conferimento* o di *cattura* (colonna J, `descrMateriaPrima`) e i chili da `qtaQuota` (colonna S), e somma più righe nello stesso giorno.
 - **Export in Excel** – un file `.xlsx` con giorno e chili, da tenere come copia di sicurezza.
 - **Chili o quintali** – l'unità di misura si sceglie nelle impostazioni.
 - **Cancellazione protetta** – un giorno si cancella con due tocchi dall'elenco; dalle impostazioni si può eliminare un giorno, un mese, un anno intero o tutto l'archivio, solo scrivendo `ELIMINA`.
