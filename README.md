@@ -17,8 +17,10 @@
 - **Import da Excel** – legge il file dei conferimenti: prende solo le righe di *conferimento* (colonna J, `descrMateriaPrima`) e i chili da `qtaQuota` (colonna S), e somma più conferimenti nello stesso giorno.
 - **Export in Excel** – un file `.xlsx` con giorno e chili, da tenere come copia di sicurezza.
 - **Chili o quintali** – l'unità di misura si sceglie nelle impostazioni.
-- **Cancellazione protetta** – un giorno si cancella con due tocchi; un anno intero o tutto l'archivio solo scrivendo `ELIMINA`.
+- **Cancellazione protetta** – un giorno si cancella con due tocchi dall'elenco; dalle impostazioni si può eliminare un giorno, un mese, un anno intero o tutto l'archivio, solo scrivendo `ELIMINA`.
 - **Tema chiaro e scuro** – segue l'impostazione del telefono.
+
+Le novità di ogni aggiornamento sono in [CHANGELOG.md](CHANGELOG.md).
 
 ## Schermate
 
