@@ -287,19 +287,36 @@ function renderPage(){
     B.innerHTML=`<table><thead><tr><th>Anno</th><th>Pescato</th><th>Uscite</th><th>Media a uscita</th></tr></thead><tbody>${data.map(d=>`<tr><td>${d.y}${d.k===best&&best>0?' <span style="color:var(--coral)">●</span>':''}</td><td>${kg(d.k)}</td><td>${d.n}</td><td>${d.n?kg(d.k/d.n):'—'}</td></tr>`).join('')}</tbody></table><p class="note">● anno migliore per chili pescati. Gli anni sono interi, dal 1° gennaio al 31 dicembre.</p>`;
   }else if(tab==='set'){
     B.innerHTML=`<h2>Unità di misura</h2><p class="none" style="padding-top:0">Come mostrare il pescato in tutta l'app. I chili si inseriscono sempre in kg.</p><div class="opts">${[['kg','Chilogrammi','es. 1.250 kg'],['q','Quintali','es. 12,5 q']].map(o=>`<button type="button" class="opt${unit===o[0]?' on':''}" data-u="${o[0]}"><b>${o[1]}</b><span>${o[2]}</span></button>`).join('')}</div><h2>Esporta in Excel</h2><p class="none" style="padding-top:0">Un file .xlsx con due colonne: giorno e chili pescati (${rows.size} giorni). Sul telefono si apre la condivisione: scegli "Salva su File", Mail o WhatsApp. Fallo ogni tanto come copia di sicurezza.</p><div class="acts"><button type="button" class="btn" id="xlExp">Scarica file Excel</button></div><div class="err" id="xlExpErr"></div>
-      <h2>Elimina dati</h2><p class="none" style="padding-top:0">Per cancellare un solo giorno toccalo nell'elenco. Qui puoi cancellare un anno intero o tutto. Prima conviene scaricare il file Excel.</p>
-      <label for="delY">Cosa eliminare</label><select id="delY"><option value="">Scegli…</option>${years().filter(y=>[...rows.keys()].some(d=>d.startsWith(y+'-'))).map(y=>`<option value="${y}">Tutto il ${y} (${[...rows.keys()].filter(d=>d.startsWith(y+'-')).length} giorni)</option>`).join('')}<option value="all">Tutti i dati (${rows.size} giorni)</option></select>
+      <h2>Elimina dati</h2><p class="none" style="padding-top:0">Puoi cancellare un giorno, un mese, un anno intero o tutto. Prima conviene scaricare il file Excel.</p>
+      <label for="delK">Cosa eliminare</label><select id="delK"><option value="">Scegli…</option><option value="d">Un giorno</option><option value="m">Un mese</option><option value="y">Un anno intero</option><option value="all">Tutti i dati (${rows.size} giorni)</option></select>
+      <div id="delWrap" hidden><label for="delY" id="delYLbl">Quale</label><select id="delY"></select></div>
       <label for="delTxt">Per confermare scrivi ELIMINA</label><input id="delTxt" autocomplete="off" autocapitalize="characters" placeholder="ELIMINA">
       <div class="acts"><button type="button" class="btn red" id="delGo" disabled>Elimina definitivamente</button></div><div class="err" id="delErr"></div>`;
     $('xlExp').onclick=exportXlsx;
-    const chk=()=>{$('delGo').disabled=!($('delY').value&&$('delTxt').value.trim().toUpperCase()==='ELIMINA')};
+    const keys=()=>[...rows.keys()].sort().reverse();
+    const cnt=p=>keys().filter(d=>d.startsWith(p)).length;
+    const gg=n=>n+(n==1?' giorno':' giorni');
+    const target=()=>{const k=$('delK').value;return k==='all'?'all':(k&&$('delY').value)||''};
+    const chk=()=>{$('delGo').disabled=!(target()&&$('delTxt').value.trim().toUpperCase()==='ELIMINA')};
+    $('delK').onchange=()=>{
+      const k=$('delK').value;let opts=[];
+      if(k==='d')opts=keys().map(d=>{const r=rows.get(d);return [d,wd(d)+' '+nice(d)+' · '+kg(r.kg)]});
+      else if(k==='m')opts=[...new Set(keys().map(d=>d.slice(0,7)))].map(m=>{const n=MESI[+m.slice(5)-1];return [m+'-',n[0].toUpperCase()+n.slice(1)+' '+m.slice(0,4)+' ('+gg(cnt(m+'-'))+')']});
+      else if(k==='y')opts=[...new Set(keys().map(d=>d.slice(0,4)))].map(y=>[y+'-','Tutto il '+y+' ('+gg(cnt(y+'-'))+')']);
+      $('delYLbl').textContent=k==='d'?'Quale giorno':k==='m'?'Quale mese':'Quale anno';
+      $('delY').innerHTML='<option value="">Scegli…</option>'+opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('');
+      $('delWrap').hidden=!(k&&k!=='all');
+      if(k&&k!=='all'&&!opts.length)$('delY').innerHTML='<option value="">Nessun dato</option>';
+      chk();
+    };
     $('delY').onchange=chk;$('delTxt').oninput=chk;
     $('delGo').onclick=async()=>{
       if(readOnly){$('delErr').textContent='Puoi solo consultare i dati.';return}
-      const y=$('delY').value;const list=[...rows.keys()].filter(d=>y==='all'||d.startsWith(y+'-'));
+      const t=target();if(!t)return;
+      const list=[...rows.keys()].filter(d=>t==='all'||(t.length===10?d===t:d.startsWith(t)));
       $('delGo').disabled=true;$('delGo').textContent='Eliminazione…';
       for(const d of list)await del(d,true);
-      render();toast(list.length+' giorni eliminati');
+      render();toast(list.length==1?'1 giorno eliminato':list.length+' giorni eliminati');
     };
     B.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{unit=b.dataset.u;try{localStorage.setItem('granchio-unita',unit)}catch(e){}render();renderPage()});
   }else{
