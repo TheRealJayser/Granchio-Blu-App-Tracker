@@ -321,7 +321,7 @@ function renderPage(){
     B.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{unit=b.dataset.u;try{localStorage.setItem('granchio-unita',unit)}catch(e){}render();renderPage()});
   }else{
     const json=JSON.stringify(all.map(r=>({d:r.d,kg:r.kg,p:r.p})));
-    B.innerHTML=`<div class="bk"><h2>Importa da Excel</h2><p>Scegli il file Excel (.xlsx, .xls) o .csv. Scegli il file dei conferimenti. Leggo solo la data (colonna B), descrMateriaPrima (J) e qtaQuota (S); prendo le righe che contengono "conferimento" o "cattura" e ignoro tutto il resto. Più righe nello stesso giorno vengono sommate.</p><input type="file" id="xlFile" accept=".xlsx,.xls,.xlsm,.ods,.csv"><div id="xlOut"></div>
+    B.innerHTML=`<div class="bk"><h2>Importa da Excel</h2><p>Scegli il file Excel (.xlsx, .xls) o .csv. Scegli il file dei conferimenti. Leggo solo la data (colonna B), descrMateriaPrima (J) e qtaQuota (S); prendo le righe che contengono "conferimento", "cattura" o "SMAL." e ignoro tutto il resto. Più righe nello stesso giorno vengono sommate.</p><input type="file" id="xlFile" accept=".xlsx,.xls,.xlsm,.ods,.csv"><div id="xlOut"></div>
       <h2>Copia di sicurezza</h2><p>Copia questo testo e salvalo in una nota o mandalo per email: contiene tutte le uscite (${all.length}).</p><textarea id="exTxt" readonly>${json}</textarea><div class="acts"><button class="btn" id="cpBtn" type="button">Copia</button></div>
       <h2>Ripristina o aggiungi dati</h2><p>Incolla qui un testo di backup, oppure scegli un file. Le uscite con lo stesso giorno vengono sostituite.</p><textarea id="imTxt" placeholder='[{"d":"2025-06-12","kg":38.5,"p":6.2}]'></textarea><input type="file" id="imFile" accept=".json,.txt,application/json" style="margin-top:10px"><div class="err" id="imErr"></div><div class="acts"><button class="btn" id="imBtn" type="button">Importa</button></div></div>`;
     $('cpBtn').onclick=async()=>{try{await navigator.clipboard.writeText(json);toast('Copiato')}catch(e){$('exTxt').select();toast('Seleziona e copia a mano')}};
@@ -394,7 +394,7 @@ function parseSheet(a){
   const out=[];let skip=0,any=false;
   for(let j=h+1;j<a.length;j++){const row=a[j]||[];
     const m=low(row[cM]);if(!m)continue;
-    if(!/conferimento|cattura/.test(m)){skip++;continue}
+    if(!/conferimento|cattura|smal/.test(m)){skip++;continue}
     any=true;
     const d=toIso(row[cD]),k=toNum(row[cK]);
     if(d&&k>0)out.push({d,kg:k,p:null});
@@ -411,9 +411,9 @@ async function readExcel(f){
     res.rows.forEach(x=>{const o=agg.get(x.d)||{d:x.d,kg:0,e:0,kp:0};o.kg+=x.kg;if(x.p!=null){o.e+=x.kg*x.p;o.kp+=x.kg}agg.set(x.d,o)})});
   pending=[...agg.values()].map(r=>({d:r.d,kg:Math.round(r.kg*100)/100,p:r.kp?Math.round(r.e/r.kp*100)/100:null})).sort((a,b)=>a.d<b.d?-1:1);
   if(!found){O.innerHTML='<div class="err">Non trovo le colonne giuste: servono dataConferimento (B), descrMateriaPrima (J) e qtaQuota (S).</div>';return}
-  if(!pending.length){O.innerHTML='<div class="err">Ho trovato le colonne ma nessuna riga di conferimento o cattura con data e chili validi.</div>';return}
+  if(!pending.length){O.innerHTML='<div class="err">Ho trovato le colonne ma nessuna riga di conferimento, cattura o SMAL. con data e chili validi.</div>';return}
   const s=sum(pending),over=pending.filter(r=>rows.has(r.d)).length;
-  O.innerHTML=`<div class="tot" style="display:block;font-weight:500"><b>${pending.length} uscite</b> dal ${nice(pending[0].d)} al ${nice(pending[pending.length-1].d)}<br>${kg(s.k)}<br><span style="font-size:13px;color:var(--mute)">Solo righe di conferimento o cattura${skip?' · '+skip+' altre righe ignorate':''}<br>Fogli: ${info.join(', ')}${over?' · '+over+' giorni già presenti verranno sostituiti':''}</span></div>`+
+  O.innerHTML=`<div class="tot" style="display:block;font-weight:500"><b>${pending.length} uscite</b> dal ${nice(pending[0].d)} al ${nice(pending[pending.length-1].d)}<br>${kg(s.k)}<br><span style="font-size:13px;color:var(--mute)">Solo righe di conferimento, cattura o SMAL.${skip?' · '+skip+' altre righe ignorate':''}<br>Fogli: ${info.join(', ')}${over?' · '+over+' giorni già presenti verranno sostituiti':''}</span></div>`+
     pending.slice(0,3).map(rowHtml).join('')+`<div class="acts"><button class="btn ghost" id="xlNo" type="button">Annulla</button><button class="btn" id="xlGo" type="button">Importa</button></div>`;
   $('xlNo').onclick=()=>{pending=[];O.innerHTML='';$('xlFile').value=''};
   $('xlGo').onclick=async()=>{

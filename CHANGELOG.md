@@ -2,6 +2,11 @@
 
 Tutti gli aggiornamenti dell'app Granchio Blu, dal più recente.
 
+## Versione 2.2 — 15 novembre 2026
+
+### Modificato
+- **Import da Excel:** vengono lette anche le righe con scritto *SMAL.* nella colonna J (`descrMateriaPrima`), insieme a quelle di *conferimento* e *cattura*. I chili dello stesso giorno vengono sommati.
+
 ## Versione 2.1 — 15 novembre 2026
 
 ### Modificato
