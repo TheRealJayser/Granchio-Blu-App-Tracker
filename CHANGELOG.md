@@ -2,6 +2,11 @@
 
 Tutti gli aggiornamenti dell'app Granchio Blu, dal più recente.
 
+## Versione 2.3 — 15 novembre 2026
+
+### Modificato
+- **Import da Excel:** ora vengono lette **tutte le righe** del file, tranne quelle con scritto *VONGOLE* o *SEMINAVONGOLE* nella colonna J (`descrMateriaPrima`). Prima si leggevano solo le righe di conferimento, cattura e SMAL. I chili dello stesso giorno vengono sommati.
+
 ## Versione 2.2 — 15 novembre 2026
 
 ### Modificato
