@@ -1,6 +1,6 @@
 # Novità
 
-Tutti gli aggiornamenti dell'app Granchio blu, dal più recente.
+Tutti gli aggiornamenti dell'app Granchio Blu, dal più recente.
 
 ## Versione 2.0 — 15 novembre 2026
 
@@ -10,6 +10,7 @@ Tutti gli aggiornamenti dell'app Granchio blu, dal più recente.
 ### Modificato
 - La conferma scrivendo `ELIMINA` vale anche per il giorno e per il mese, così niente si cancella per sbaglio.
 - Il messaggio dopo la cancellazione dice "1 giorno eliminato" al singolare.
+- Il nome dell'app diventa **Granchio Blu**, con la B maiuscola.
 
 ## Versione 1.0 — 15 novembre 2026
 

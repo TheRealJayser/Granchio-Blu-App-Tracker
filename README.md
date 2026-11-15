@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="docs/banner.png" alt="Granchio blu: il registro del pescato, giorno per giorno" width="100%">
+  <img src="docs/banner.png" alt="Granchio Blu: il registro del pescato, giorno per giorno" width="100%">
 </p>
 
-# Granchio blu
+# Granchio Blu
 
-**Granchio blu** è una web app per tenere il registro del pescato di granchio blu: quanti chili si portano a terra ogni giorno, a che prezzo, e come va la stagione rispetto agli anni passati.
+**Granchio Blu** è una web app per tenere il registro del pescato di granchio blu: quanti chili si portano a terra ogni giorno, a che prezzo, e come va la stagione rispetto agli anni passati.
 
 È pensata per chi lavora in barca: si apre dall'icona sulla schermata Home come un'app normale, a tutto schermo, funziona anche senza campo e si usa con un pollice.
 

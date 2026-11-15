@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Granchio blu">
+<meta name="apple-mobile-web-app-title" content="Granchio Blu">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b1320" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-192.png">
-<title>Granchio blu</title>
+<title>Granchio Blu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -112,7 +112,7 @@ td:first-child{font-weight:700}
 </head>
 <body>
 <div class="wrap">
-  <header><h1>Granchio blu</h1><span id="todayLbl"></span></header>
+  <header><h1>Granchio Blu</h1><span id="todayLbl"></span></header>
   <section class="hero" aria-live="polite">
     <svg class="claw" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 92c-6-18-4-34 6-46-14-2-24-12-26-28 10 6 20 8 30 6-4-8-4-16 0-22 6 10 16 16 28 16-2 16-12 28-26 32 6 12 6 26 0 42z" fill="#fff"/></svg>
     <div class="lab" id="heroLab">Totale dell'anno fino a oggi</div>
@@ -357,7 +357,7 @@ async function exportXlsx(){
     const name='granchio-blu-pescato-'+iso(new Date())+'.xlsx',type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     const file=new File([buf],name,{type});
     if(navigator.canShare&&navigator.canShare({files:[file]})){
-      try{await navigator.share({files:[file],title:'Granchio blu'})}catch(e){if(e&&e.name==='AbortError'){btn.disabled=false;btn.textContent='Scarica file Excel';return}throw e}
+      try{await navigator.share({files:[file],title:'Granchio Blu'})}catch(e){if(e&&e.name==='AbortError'){btn.disabled=false;btn.textContent='Scarica file Excel';return}throw e}
     }else{const u=URL.createObjectURL(file),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
     try{localStorage.setItem('granchio-ultimo-export',iso(new Date()))}catch(e){}
     status(localNote());toast('File Excel pronto');
