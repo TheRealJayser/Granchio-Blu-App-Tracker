@@ -2,7 +2,7 @@
 
 Tutti gli aggiornamenti dell'app Granchio blu, dal più recente.
 
-## Versione 1.1 — 15 novembre 2026
+## Versione 2.0 — 15 novembre 2026
 
 ### Aggiunto
 - **Cancellare un singolo giorno o un singolo mese** da *menu → Impostazioni → Elimina dati*. In "Cosa eliminare" ora si sceglie tra *Un giorno*, *Un mese*, *Un anno intero* o *Tutti i dati*. Un secondo elenco mostra solo i giorni o i mesi con dati, con i chili o il numero di giorni accanto.
